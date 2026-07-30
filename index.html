@@ -162,13 +162,24 @@ const splitLine = { lineStyle: { color: '#21262d', type: 'dashed' } };
 
 // === 压力指数走势图 ===
 const pTrend = echarts.init(document.getElementById('pressure-trend'));
+// 自适应 Y 轴范围：基于实际数据范围，确保阈值线可见
+var pVals = DATA.pressure.index.filter(function(v){return v!=null;});
+var pDataMin = Math.min.apply(null, pVals);
+var pDataMax = Math.max.apply(null, pVals);
+var pRange = pDataMax - pDataMin;
+var pPad = Math.max(pRange * 0.15, 3);  // 至少3的padding
+var pYMin = Math.max(0, Math.floor((pDataMin - pPad) / 5) * 5);  // 往下取整到5的倍数
+var pYMax = Math.min(100, Math.ceil((pDataMax + pPad) / 5) * 5);  // 往上取整到5的倍数
+// 确保阈值线可见
+if (pYMin > 50) pYMin = 45;
+if (pYMax < 70) pYMax = 75;
 pTrend.setOption({
   backgroundColor:'transparent',
   tooltip:{ trigger:'axis' },
   grid:{ left:40, right:70, top:20, bottom:30 },
   xAxis:{ type:'category', data:DATA.pressure.dates, axisLine,
            axisLabel:{color:'#8b949e',fontSize:10,rotate:30} },
-  yAxis:{ type:'value', min:0, max:100, axisLine,
+  yAxis:{ type:'value', min:pYMin, max:pYMax, axisLine,
            axisLabel:{color:'#8b949e',fontSize:10,formatter:'{value}'}, splitLine },
   series:[{ type:'line', data:DATA.pressure.index, smooth:true, symbol:'none',
             lineStyle:{width:2.5, color:DATA.pressure.color},
