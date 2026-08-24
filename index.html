@@ -241,16 +241,17 @@ var us10yChart = echarts.init(document.getElementById('us10y-chart'));
 var us10ySeries = [];
 if (DATA.us10y.values && DATA.us10y.values.length) {
   us10ySeries.push({name:'10Y 收益率', type:'line', data:DATA.us10y.values, smooth:true, symbol:'none',
-    lineStyle:{width:2.5, color:'#d29922'}, areaStyle:{color:'rgba(210,153,34,0.12)'}});
+    lineStyle:{width:2.5, color:'#d29922'}, itemStyle:{color:'#d29922'},
+    areaStyle:{color:'rgba(210,153,34,0.12)'}});
   if (DATA.us10y.upper && DATA.us10y.upper.length)
     us10ySeries.push({name:'+2σ 上轨', type:'line', data:DATA.us10y.upper, smooth:true, symbol:'none',
-      lineStyle:{width:1.2, color:'#f85149', type:'dashed'}});
+      lineStyle:{width:1.2, color:'#f85149', type:'dashed'}, itemStyle:{color:'#f85149'}});
   if (DATA.us10y.mean && DATA.us10y.mean.length)
     us10ySeries.push({name:'3年均值', type:'line', data:DATA.us10y.mean, smooth:true, symbol:'none',
-      lineStyle:{width:1.2, color:'#8b949e', type:'dashed'}});
+      lineStyle:{width:1.2, color:'#8b949e', type:'dashed'}, itemStyle:{color:'#8b949e'}});
   if (DATA.us10y.lower && DATA.us10y.lower.length)
     us10ySeries.push({name:'-2σ 下轨', type:'line', data:DATA.us10y.lower, smooth:true, symbol:'none',
-      lineStyle:{width:1.2, color:'#3fb950', type:'dashed'}});
+      lineStyle:{width:1.2, color:'#3fb950', type:'dashed'}, itemStyle:{color:'#3fb950'}});
 }
 us10yChart.setOption({
   backgroundColor:'transparent',
