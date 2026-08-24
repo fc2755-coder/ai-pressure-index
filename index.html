@@ -238,26 +238,34 @@ cdsChart.setOption({
 
 // === 10Y 美债收益率 图 ===
 var us10yChart = echarts.init(document.getElementById('us10y-chart'));
+var us10yColors = {'10Y 收益率':'#d29922', '+2σ 上轨':'#f85149', '3年均值':'#8b949e', '-2σ 下轨':'#3fb950'};
 var us10ySeries = [];
 if (DATA.us10y.values && DATA.us10y.values.length) {
   us10ySeries.push({name:'10Y 收益率', type:'line', data:DATA.us10y.values, smooth:true, symbol:'none',
-    lineStyle:{width:2.5, color:'#d29922'}, itemStyle:{color:'#d29922'},
+    lineStyle:{width:2.5, color:us10yColors['10Y 收益率']}, itemStyle:{color:us10yColors['10Y 收益率']},
     areaStyle:{color:'rgba(210,153,34,0.12)'}});
   if (DATA.us10y.upper && DATA.us10y.upper.length)
     us10ySeries.push({name:'+2σ 上轨', type:'line', data:DATA.us10y.upper, smooth:true, symbol:'none',
-      lineStyle:{width:1.2, color:'#f85149', type:'dashed'}, itemStyle:{color:'#f85149'}});
+      lineStyle:{width:1.2, color:us10yColors['+2σ 上轨'], type:'dashed'}, itemStyle:{color:us10yColors['+2σ 上轨']}});
   if (DATA.us10y.mean && DATA.us10y.mean.length)
     us10ySeries.push({name:'3年均值', type:'line', data:DATA.us10y.mean, smooth:true, symbol:'none',
-      lineStyle:{width:1.2, color:'#8b949e', type:'dashed'}, itemStyle:{color:'#8b949e'}});
+      lineStyle:{width:1.2, color:us10yColors['3年均值'], type:'dashed'}, itemStyle:{color:us10yColors['3年均值']}});
   if (DATA.us10y.lower && DATA.us10y.lower.length)
     us10ySeries.push({name:'-2σ 下轨', type:'line', data:DATA.us10y.lower, smooth:true, symbol:'none',
-      lineStyle:{width:1.2, color:'#3fb950', type:'dashed'}, itemStyle:{color:'#3fb950'}});
+      lineStyle:{width:1.2, color:us10yColors['-2σ 下轨'], type:'dashed'}, itemStyle:{color:us10yColors['-2σ 下轨']}});
 }
 us10yChart.setOption({
   backgroundColor:'transparent',
   tooltip:{trigger:'axis', valueFormatter:function(v){return v==null?'-':v.toFixed(2)+'%';}},
-  legend:{textStyle:{color:'#8b949e',fontSize:11}, top:0},
-  grid:{left:45, right:20, top:35, bottom:55},
+  legend:{orient:'horizontal', left:'center', top:0,
+          data:[
+            {name:'10Y 收益率', icon:'rect', itemStyle:{color:us10yColors['10Y 收益率']}},
+            {name:'+2σ 上轨', icon:'rect', itemStyle:{color:us10yColors['+2σ 上轨']}},
+            {name:'3年均值', icon:'rect', itemStyle:{color:us10yColors['3年均值']}},
+            {name:'-2σ 下轨', icon:'rect', itemStyle:{color:us10yColors['-2σ 下轨']}}
+          ],
+          textStyle:{color:'#c9d1d9',fontSize:11}},
+  grid:{left:45, right:20, top:45, bottom:55},
   xAxis:{type:'category', data:DATA.us10y.dates||[], axisLine,
           axisLabel:{color:'#8b949e',fontSize:10,rotate:30}},
   yAxis:{type:'value', name:'%', min:DATA.us10y.y_min, max:DATA.us10y.y_max,
